@@ -20,12 +20,12 @@
         </form>
     </div>
     <div class="col-sm-5">
+        @if (!String.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <img src="@Model.ImageUrl" class="faceimage"/>
+        }
         <table class="table">
             <tbody>
-                <tr>
-                    <th>URL</th>
-                    <td>@Model.ImageUrl</td>
-                </tr>
                 <tr>
                     <th>Age</th>
                     <td>@Model.Age</td>

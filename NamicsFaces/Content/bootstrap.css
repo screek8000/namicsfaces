@@ -139,6 +139,11 @@ img {
   border: 0;
 }
 
+.faceimage {
+    max-width: 100%;
+    max-height: 100%;
+}
+
 svg:not(:root) {
   overflow: hidden;
 }
