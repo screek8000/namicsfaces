@@ -1,4 +1,7 @@
-﻿using System;
+﻿using NamicsFaces.Models;
+using NamicsFaces.Services;
+using NamicsFaces.Services.Implementation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +13,14 @@ namespace NamicsFaces.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return View(new FaceMetaData());
+        }
+
+        [HttpPost]
+        public ActionResult Index(string pictureUrl)
+        {
+            IFacesApi facesApi = new FacesApi();
+            return View(facesApi.GetMetaData(pictureUrl));
         }
 
         public ActionResult About()

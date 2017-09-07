@@ -11,14 +11,22 @@
     <div class="col-sm-6">
         <h2>Analyze a Face</h2>
         <p>This web app allows you to automatically analyze a face using the Microsoft Cognitive Services API.</p>
-        <form>
+        <form method="post">
             <div class="form-group">
                 <label for="url">Image URL</label>
-                <input type="text" class="form-control" id="url" aria-describedby="urlHelp" placeholder="http://...">
+                <input type="text" class="form-control" name="pictureUrl" id="url" aria-describedby="urlHelp" placeholder="http://...">
                 <small id="urlHelp" class="form-text text-muted">Please note that this image will be transmitted to Microsoft for analysis.</small>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+
+        <div>
+            <span>Url: @Model.ImageUrl</span>
+            <span>Age: @Model.Age</span>
+            <span>Gender: @Model.Gender</span>
+            <span>Smile: @Model.Smile</span>
+            <span>Glasses: @Model.Glasses</span>
+        </div>
     </div>
     <div class="col-sm-3"></div>
 </div>
