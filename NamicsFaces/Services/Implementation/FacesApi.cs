@@ -7,6 +7,7 @@ using Microsoft.ProjectOxford.Face;
 using Microsoft.ProjectOxford.Face.Contract;
 using System.IO;
 using System.Threading.Tasks;
+using NamicsFaces.Helpers;
 
 namespace NamicsFaces.Services.Implementation
 {
@@ -17,7 +18,7 @@ namespace NamicsFaces.Services.Implementation
         public FaceMetaData GetMetaData(string pictureUrl)
         {
             Log("GetMetaDataAsync");
-            Face[] faces = DetectFacesFromUrl(pictureUrl).Result;
+            Face[] faces = AsyncHelpers.RunSync<Face[]>(() => DetectFacesFromUrl(pictureUrl));
             if (faces.Length > 0)
             {
                 Face face = faces[0];
@@ -25,7 +26,9 @@ namespace NamicsFaces.Services.Implementation
                 {
                     ImageUrl = pictureUrl,
                     Age = face.FaceAttributes.Age,
-                    Gender = face.FaceAttributes.Gender
+                    Gender = face.FaceAttributes.Gender,
+                    Glasses = face.FaceAttributes.Glasses.ToString(),
+                    Smile = face.FaceAttributes.Smile
                 };  
             }
             else
