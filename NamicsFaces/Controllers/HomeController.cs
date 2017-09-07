@@ -13,14 +13,31 @@ namespace NamicsFaces.Controllers
     {
         public ActionResult Index()
         {
-            return View(new FaceMetaData());
+            return View();
+        }
+
+        public ActionResult Analyze()
+        {
+            return View("Analyze", new FaceMetaData());
         }
 
         [HttpPost]
-        public ActionResult Index(string pictureUrl)
+        public ActionResult Analyze(string pictureUrl)
         {
             IFacesApi facesApi = new FacesApi();
-            return View(facesApi.GetMetaData(pictureUrl));
+            return View("Analyze", facesApi.GetMetaData(pictureUrl));
+        }
+
+        public ActionResult Identify()
+        {
+            return View("Identify", new PersonMetaData());
+        }
+
+        [HttpPost]
+        public ActionResult Identify(string pictureUrl)
+        {
+            IFacesApi facesApi = new FacesApi();
+            return View("Identify", facesApi.Identify(pictureUrl));
         }
 
         public ActionResult About()

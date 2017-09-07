@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using NamicsFaces.Models;
 using Microsoft.ProjectOxford.Face;
 using Microsoft.ProjectOxford.Face.Contract;
@@ -40,6 +38,12 @@ namespace NamicsFaces.Services.Implementation
                     Gender = "failed"
                 };
             }
+        }
+
+        public PersonMetaData Identify(string pictureUrl)
+        {
+            // TODO
+            return new PersonMetaData();
         }
 
         private async Task<Face[]> DetectFacesFromUrl(string pictureUrl)

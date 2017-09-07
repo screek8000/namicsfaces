@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Faces. Namics.";
+}
+
+<div class="jumbotron">
+    <h1><span style="color:white">Faces.</span> Namics.</h1>
+</div>
+
+<div class="row">
+    <div class="col-sm-7">
+        <h2>Identify a Face</h2>
+        <p>This web app allows you to automatically analyze a face using the Microsoft Cognitive Services API.</p>
+        <form method="post">
+            <div class="form-group">
+                <label for="url">Image URL</label>
+                <input type="text" class="form-control" name="pictureUrl" id="url" aria-describedby="urlHelp" placeholder="http://...">
+                <small id="urlHelp" class="form-text text-muted">Please note that this image will be transmitted to Microsoft for analysis.</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <div class="col-sm-5">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>URL</th>
+                    <td>@Model.ImageUrl</td>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td>@Model.Name</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
