@@ -8,41 +8,11 @@
 
 <div class="row">
     <div class="col-sm-7">
-        <h2>Analyze a Face</h2>
-        <p>This web app allows you to automatically analyze a face using the Microsoft Cognitive Services API.</p>
-        <form method="post">
-            <div class="form-group">
-                <label for="url">Image URL</label>
-                <input type="text" class="form-control" name="pictureUrl" id="url" aria-describedby="urlHelp" placeholder="http://...">
-                <small id="urlHelp" class="form-text text-muted">Please note that this image will be transmitted to Microsoft for analysis.</small>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
-    <div class="col-sm-5">
-        @if (!String.IsNullOrEmpty(Model.ImageUrl))
-        {
-            <img src="@Model.ImageUrl" class="faceimage"/>
-        }
-        <table class="table">
-            <tbody>
-                <tr>
-                    <th>Age</th>
-                    <td>@Model.Age</td>
-                </tr>
-                <tr>
-                    <th>Gender</th>
-                    <td>@Model.Gender</td>
-                </tr>
-                <tr>
-                    <th>Smile</th>
-                    <td>@Model.Smile</td>
-                </tr>
-                <tr>
-                    <th>Glasses</th>
-                    <td>@Model.Glasses</td>
-                </tr>
-            </tbody>
-        </table>
+        <h2>Analyze or Identify a Face</h2>
+        <p>This web app allows you to automatically analyze or identify a face using the Microsoft Cognitive Services API.</p>
+        <ul>
+            <li><a href="/Home/Analyze">Analyze</a></li>
+            <li><a href="/Home/Identify">Identify</a></li>
+        </ul>
     </div>
 </div>
