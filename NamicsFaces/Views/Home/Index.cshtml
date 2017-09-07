@@ -7,8 +7,7 @@
 </div>
 
 <div class="row">
-    <div class="col-sm-3"></div>
-    <div class="col-sm-6">
+    <div class="col-sm-7">
         <h2>Analyze a Face</h2>
         <p>This web app allows you to automatically analyze a face using the Microsoft Cognitive Services API.</p>
         <form method="post">
@@ -19,14 +18,31 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-
-        <div>
-            <span>Url: @Model.ImageUrl</span>
-            <span>Age: @Model.Age</span>
-            <span>Gender: @Model.Gender</span>
-            <span>Smile: @Model.Smile</span>
-            <span>Glasses: @Model.Glasses</span>
-        </div>
     </div>
-    <div class="col-sm-3"></div>
+    <div class="col-sm-5">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>URL</th>
+                    <td>@Model.ImageUrl</td>
+                </tr>
+                <tr>
+                    <th>Age</th>
+                    <td>@Model.Age</td>
+                </tr>
+                <tr>
+                    <th>Gender</th>
+                    <td>@Model.Gender</td>
+                </tr>
+                <tr>
+                    <th>Smile</th>
+                    <td>@Model.Smile</td>
+                </tr>
+                <tr>
+                    <th>Glasses</th>
+                    <td>@Model.Glasses</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
