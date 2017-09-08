@@ -27,3 +27,42 @@ a.noselect {
     color: #000000;
     text-decoration: none;
 }
+
+
+.jumbotron {
+    padding: 30px;
+    padding-bottom: 12px;
+    padding-right: 30px;
+    margin-bottom: 30px;
+    font-size: 21px;
+    font-weight: 200;
+    line-height: 2.1428571435;
+    color: inherit;
+    background-color: #d21e1e;
+}
+
+    .jumbotron h1 {
+        text-align: right;
+    }
+
+    .jumbotron p {
+        line-height: 1.4;
+    }
+
+.container .jumbotron {
+    border-radius: 6px;
+}
+
+@media screen and (min-width: 768px) {
+    .jumbotron {
+        padding-top: 48px;
+    }
+
+    .container .jumbotron {
+        padding-left: 60px;
+    }
+
+    .jumbotron h1 {
+        font-size: 48px;
+    }
+}

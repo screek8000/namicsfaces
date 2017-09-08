@@ -7,15 +7,15 @@
         <h2>Add a Face</h2>
         <form method="post">
             <div class="form-group">
+                <label for="url">Image URL</label>
+                <input type="text" class="form-control" name="pictureUrl" id="url" aria-describedby="urlHelp" placeholder="http://...">
+                <small id="urlHelp" class="form-text text-muted">Please note that this image will be transmitted to Microsoft for analysis.</small>
                 <label for="personId">Person</label>
                 <select id="personId" name="personId" size="3">
                 @foreach(var item in @Model) {
                   <option value="@item.PersonId">@item.Name</option>
                 }
                 </select>
-                <label for="url">Image URL</label>
-                <input type="text" class="form-control" name="pictureUrl" id="url" aria-describedby="urlHelp" placeholder="http://...">
-                <small id="urlHelp" class="form-text text-muted">Please note that this image will be transmitted to Microsoft for analysis.</small>
             </div>
             <button type="submit" class="btn btn-primary">Add Face</button>
         </form>
