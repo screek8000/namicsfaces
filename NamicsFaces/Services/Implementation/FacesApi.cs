@@ -31,7 +31,7 @@ namespace NamicsFaces.Services.Implementation
                     Glasses = face.FaceAttributes.Glasses.ToString(),
                     Smile = face.FaceAttributes.Smile,
                     Emotion = getEmotion(face.FaceAttributes.Emotion),
-                    FacialHair = face.FaceAttributes.FacialHair.ToString
+                    FacialHair = face.FaceAttributes.FacialHair
                 };  
             }
             else

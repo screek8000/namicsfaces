@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.ProjectOxford.Face.Contract;
 using NamicsFaces.Helpers;
 
 namespace NamicsFaces.Models
@@ -24,6 +25,17 @@ namespace NamicsFaces.Models
         public string Glasses { get; set; }
 
         public string Emotion { get; set; }
-        public Func<string> FacialHair { get; set; }
+
+        public FacialHair FacialHair { get; set; }
+
+        public string FacialHairFormatted
+        {
+            get
+            {
+                if (FacialHair.Beard == 0 && FacialHair.Moustache == 0 && FacialHair.Sideburns == 0) return "no";
+
+                return "yes (Beard " + NumberHelpers.ToPercent(FacialHair.Beard) + ", Moustache " + NumberHelpers.ToPercent(FacialHair.Moustache) + ", Sideburns " + NumberHelpers.ToPercent(FacialHair.Sideburns) + ")";
+            }
+        }
     }
 }
