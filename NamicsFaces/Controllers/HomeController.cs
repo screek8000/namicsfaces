@@ -20,10 +20,19 @@ namespace NamicsFaces.Controllers
         }
 
         [HttpPost]
-        public ActionResult Analyze(string pictureUrl)
+        public async Task<ActionResult> Analyze(string pictureUrl, HttpPostedFileBase file)
         {
             IFacesApi facesApi = new FacesApi();
-            return View("Analyze", facesApi.GetMetaData(pictureUrl));
+            FaceMetaData result;
+            if (file != null)
+            {
+                result = await facesApi.GetMetaData(file);
+            }
+            else
+            {
+                result = await facesApi.GetMetaData(pictureUrl);
+            }
+            return View("Analyze", result);
         }
 
         public ActionResult Identify()

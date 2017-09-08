@@ -32,6 +32,7 @@ namespace NamicsFaces.Models
         {
             get
             {
+                if (FacialHair == null) return "unknown";
                 if (FacialHair.Beard == 0 && FacialHair.Moustache == 0 && FacialHair.Sideburns == 0) return "no";
 
                 return "yes (Beard " + NumberHelpers.ToPercent(FacialHair.Beard) + ", Moustache " + NumberHelpers.ToPercent(FacialHair.Moustache) + ", Sideburns " + NumberHelpers.ToPercent(FacialHair.Sideburns) + ")";

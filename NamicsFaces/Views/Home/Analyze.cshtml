@@ -6,11 +6,13 @@
     <div class="col-sm-7">
         <h2>Analyze a Face</h2>
         <p>To find and analyze a face on an image of your choice, please paste the image URL below and submit.</p>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="url">Image URL</label>
                 <input type="text" class="form-control" name="pictureUrl" id="url" aria-describedby="urlHelp" placeholder="http://...">
                 <small id="urlHelp" class="form-text text-muted">Please note that this image will be transmitted to Microsoft for analysis.</small>
+                <label for="file">Upload Face Image:</label>
+                <input type="file" name="file" id="file" style="width: 100%;" />
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

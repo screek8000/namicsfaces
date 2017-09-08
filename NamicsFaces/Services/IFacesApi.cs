@@ -7,7 +7,9 @@ namespace NamicsFaces.Services
 {
     public interface IFacesApi
     {
-        FaceMetaData GetMetaData(string pictureUrl);
+        Task<FaceMetaData> GetMetaData(string pictureUrl);
+
+        Task<FaceMetaData> GetMetaData(HttpPostedFileBase file);
 
         Task<PersonMetaData> Identify(string pictureUrl);
 
