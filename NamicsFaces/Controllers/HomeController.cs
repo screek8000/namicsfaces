@@ -1,6 +1,7 @@
 ﻿using NamicsFaces.Models;
 using NamicsFaces.Services;
 using NamicsFaces.Services.Implementation;
+using System;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -26,7 +27,9 @@ namespace NamicsFaces.Controllers
             FaceMetaData result;
             if (file != null)
             {
+                string imageUrl = UploadImage(file);
                 result = await facesApi.GetMetaData(file);
+                result.ImageUrl = imageUrl;
             }
             else
             {
@@ -48,7 +51,9 @@ namespace NamicsFaces.Controllers
             PersonMetaData result;
             if (file != null)
             {
+                string imageUrl = UploadImage(file);
                 result = await facesApi.Identify(file);
+                result.ImageUrl = imageUrl;
             } else
             {
                 result = await facesApi.Identify(pictureUrl);
@@ -98,6 +103,24 @@ namespace NamicsFaces.Controllers
             IFacesTrainApi facesTrainApi = new FacesTrainApi();
             TrainStatus status = await facesTrainApi.TrainStatusAsync();
             return View("Trainstatus", status);
+        }
+
+        private string UploadImage(HttpPostedFileBase file)
+        {
+            if (file != null)
+            {
+                try
+                {
+                    string filename = "Uploads/" + Guid.NewGuid() + ".jpg";
+                    string physicalPath = Server.MapPath(filename.Replace("/", "\\"));
+                    file.SaveAs(physicalPath);
+                    return "/Home/" + filename;
+                }
+                catch (Exception e)
+                {
+                }
+            }
+            return "";
         }
     }
 }

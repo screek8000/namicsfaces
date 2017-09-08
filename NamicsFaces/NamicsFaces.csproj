@@ -169,6 +169,7 @@
     <Compile Include="Services\IFacesApi.cs" />
     <Compile Include="Services\Implementation\FacesTrainApi.cs" />
     <Compile Include="Services\Implementation\FacesApi.cs" />
+    <None Include="Home\Uploads\dummy.file" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
