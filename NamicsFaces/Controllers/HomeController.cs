@@ -33,10 +33,17 @@ namespace NamicsFaces.Controllers
 
        
 	    [HttpPost]
-		public async Task<ActionResult> Identify(string pictureUrl)
+		public async Task<ActionResult> Identify(string pictureUrl, HttpPostedFileBase file)
 	    {
 		    IFacesApi facesApi=new FacesApi();
-		    PersonMetaData result = await facesApi.Identify(pictureUrl);
+            PersonMetaData result;
+            if (file != null)
+            {
+                result = await facesApi.Identify(file);
+            } else
+            {
+                result = await facesApi.Identify(pictureUrl);
+            }
 
 		    return View("Identify", result);
 	    }

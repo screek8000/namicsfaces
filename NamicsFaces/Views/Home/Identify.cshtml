@@ -6,12 +6,14 @@
     <div class="col-sm-7">
         <h2>Identify a Face</h2>
         <p>You can attempt to identify a member of the development team on a picture of your choice.</p>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="url">Image URL</label>
                 <input type="text" class="form-control" name="pictureUrl" id="url" aria-describedby="urlHelp" placeholder="http://...">
                 <small id="urlHelp" class="form-text text-muted">Please note that this image will be transmitted to Microsoft for analysis.</small>
             </div>
+            <label for="file">Upload Face Image:</label>
+            <input type="file" name="file" id="file" style="width: 100%;" />
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
