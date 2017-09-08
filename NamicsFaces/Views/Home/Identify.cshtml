@@ -2,10 +2,6 @@
     ViewBag.Title = "Faces. Namics.";
 }
 
-<div class="jumbotron">
-    <h1><span style="color:white">Faces.</span> Namics.</h1>
-</div>
-
 <div class="row">
     <div class="col-sm-7">
         <h2>Identify a Face</h2>
@@ -23,14 +19,14 @@
         @if (!String.IsNullOrEmpty(Model.ImageUrl))
         {
             <img src="@Model.ImageUrl" class="faceimage"/>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Name</th>
+                        <td>@Model.Name</td>
+                    </tr>
+                </tbody>
+            </table>
         }
-        <table class="table">
-            <tbody>
-                <tr>
-                    <th>Name</th>
-                    <td>@Model.Name</td>
-                </tr>
-            </tbody>
-        </table>
     </div>
 </div>
