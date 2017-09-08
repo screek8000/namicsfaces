@@ -4,6 +4,7 @@ using NamicsFaces.Services.Implementation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -41,22 +42,41 @@ namespace NamicsFaces.Controllers
 	        return View("Identify", facesApi.Identify(pictureUrl));
         }
 
-        public ActionResult Train()
+        public async Task<ActionResult> Train()
         {
             IFacesTrainApi facesTrainApi = new FacesTrainApi();
-            return View("Train", facesTrainApi.GetPersons());
+            var trainModel = new TrainModel()
+            {
+                Mode = "Get",
+                Persons = await facesTrainApi.GetPersonsMetaDataAsync()
+            };
+            return View("Train", trainModel);
+        }
+        
+        [HttpPost]
+        public ActionResult Train(HttpPostedFileBase file, string personId)
+        {
+            var trainModel = new TrainModel()
+            {
+                Mode = "File"                
+            };
+            if (file != null)
+            {
+                trainModel.Result = "OK";
+                return View("Train", trainModel);
+            } else
+            {
+                trainModel.Result = "NOK";
+                return View("Train", trainModel);
+            }
         }
 
         [HttpPost]
-        public ActionResult Train(bool train)
+        public ActionResult StartTrain()
         {
-            if (train)
-            {
-                IFacesTrainApi facesTrainApi = new FacesTrainApi();
-                facesTrainApi.TrainFaces();
-                return View("Train", "OK");
-            }
-            return View("Train", "SKIP");
+            IFacesTrainApi facesTrainApi = new FacesTrainApi();
+            facesTrainApi.TrainFaces();
+            return View("Trainstatus");
         }
 
         public ActionResult About()

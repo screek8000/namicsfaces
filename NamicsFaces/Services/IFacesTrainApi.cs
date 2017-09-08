@@ -1,5 +1,6 @@
 ﻿using NamicsFaces.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NamicsFaces.Services
 {
@@ -9,6 +10,6 @@ namespace NamicsFaces.Services
 
         void TrainFaces();
 
-        IEnumerable<PersonMetaData> GetPersons();
+        Task<IEnumerable<PersonMetaData>> GetPersonsMetaDataAsync();
     }
 }

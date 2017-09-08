@@ -161,6 +161,7 @@
     <Compile Include="Helpers\AsyncHelpers.cs" />
     <Compile Include="Models\PersonMetaData.cs" />
     <Compile Include="Models\FaceMetaData.cs" />
+    <Compile Include="Models\TrainModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IFacesTrainApi.cs" />
     <Compile Include="Services\IFacesApi.cs" />
@@ -206,6 +207,7 @@
     <Content Include="Views\Home\Analyze.cshtml" />
     <Content Include="Views\Home\Identify.cshtml" />
     <Content Include="Views\Home\Train.cshtml" />
+    <Content Include="Views\Home\Trainstatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

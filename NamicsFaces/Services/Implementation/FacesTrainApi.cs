@@ -56,10 +56,11 @@ namespace NamicsFaces.Services.Implementation
             throw new NotImplementedException();
         }
 
-        public IEnumerable<PersonMetaData> GetPersons()
+        public async Task<IEnumerable<PersonMetaData>> GetPersonsMetaDataAsync()
         {
-            Person[] persons = AsyncHelpers.RunSync<Person[]>(() => GetPersonsAsync());
-            return persons.Select((person) => new PersonMetaData {
+            Person[] persons = await GetPersonsAsync();
+            return persons.Select((person) => new PersonMetaData
+            {
                 Name = person.Name,
                 PersonId = person.PersonId.ToString(),
                 UserData = person.UserData
@@ -92,8 +93,6 @@ namespace NamicsFaces.Services.Implementation
         private void Log(string log)
         {
             System.Diagnostics.Debug.WriteLine(log);
-        }
-
-        
+        }  
     }
 }
