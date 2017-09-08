@@ -19,26 +19,26 @@
         @if (!String.IsNullOrEmpty(Model.ImageUrl))
         {
             <img src="@Model.ImageUrl" class="faceimage"/>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Age</th>
+                        <td>@Model.Age</td>
+                    </tr>
+                    <tr>
+                        <th>Gender</th>
+                        <td>@Model.Gender</td>
+                    </tr>
+                    <tr>
+                        <th>Smile</th>
+                        <td>@Model.Smile</td>
+                    </tr>
+                    <tr>
+                        <th>Glasses</th>
+                        <td>@Model.Glasses</td>
+                    </tr>
+                </tbody>
+            </table>
         }
-        <table class="table">
-            <tbody>
-                <tr>
-                    <th>Age</th>
-                    <td>@Model.Age</td>
-                </tr>
-                <tr>
-                    <th>Gender</th>
-                    <td>@Model.Gender</td>
-                </tr>
-                <tr>
-                    <th>Smile</th>
-                    <td>@Model.Smile</td>
-                </tr>
-                <tr>
-                    <th>Glasses</th>
-                    <td>@Model.Glasses</td>
-                </tr>
-            </tbody>
-        </table>
     </div>
 </div>
