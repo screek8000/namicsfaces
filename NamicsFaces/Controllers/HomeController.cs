@@ -123,7 +123,7 @@ namespace NamicsFaces.Controllers
                 {
                 }
             }
-            return "";
+            return "failed";
         }
     }
 }
