@@ -10,6 +10,14 @@
 
         public double Smile { get; set; }
 
+        public string SmilePercent
+        {
+            get
+            {
+                return (int)(Smile * 100) + "%";
+            }
+        }
+
         public string Glasses { get; set; }
     }
 }
