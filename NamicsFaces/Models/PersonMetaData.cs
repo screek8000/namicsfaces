@@ -8,5 +8,6 @@
 
         public string PersonId { get; set; }
         public string UserData { get; set; }
+	    public string Confidence { get; set; }
     }
 }

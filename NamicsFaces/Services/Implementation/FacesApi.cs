@@ -13,7 +13,7 @@ namespace NamicsFaces.Services.Implementation
 {
     public class FacesApi : IFacesApi
     {
-        private readonly IFaceServiceClient faceServiceClient = new FaceServiceClient("511be8524d1a422eb9c21de5a5a54f12", "https://westcentralus.api.cognitive.microsoft.com/face/v1.0");
+        private readonly IFaceServiceClient _faceServiceClient = new FaceServiceClient("511be8524d1a422eb9c21de5a5a54f12", "https://westcentralus.api.cognitive.microsoft.com/face/v1.0");
 
         public FaceMetaData GetMetaData(string pictureUrl)
         {
@@ -41,22 +41,20 @@ namespace NamicsFaces.Services.Implementation
                 };
             }
         }
-
-	   
-        public PersonMetaData Identify(string pictureUrl)
+		
+        public async Task<PersonMetaData> Identify(string pictureUrl)
         {
 			// TODO
-			IdentifyResult[] result = AsyncHelpers.RunSync<IdentifyResult[]>(() => IdentifyPersons(pictureUrl));
+			IdentifyResult[] result = await IdentifyPersons(pictureUrl);
 	        if (result.Length > 0)
 	        {
 		        if (result[0].Candidates.Length > 0)
 		        {
+			        string confidence = $"{result[0].Candidates[0].Confidence * 100}%";
 					var candidateId = result[0].Candidates[0].PersonId;
-			        Task<Person> person = faceServiceClient.GetPersonAsync("lab-team", candidateId);
-			        //return new FaceMetaData { ImageUrl = person.ToString() };
-			        return new PersonMetaData { Name = person.Result.Name };
+			        Person person = await _faceServiceClient.GetPersonAsync("lab-team", candidateId);
+			        return new PersonMetaData { Name = person.Name, ImageUrl = pictureUrl, Confidence = confidence };
 				}
-				
 			}
 	        return new PersonMetaData{Name = "Not found"};
         }
@@ -71,7 +69,7 @@ namespace NamicsFaces.Services.Implementation
             try
             {
                 Log("Detecting Faces");
-                Face[] faces = await faceServiceClient.DetectAsync(pictureUrl, returnFaceId: true, returnFaceLandmarks: false, returnFaceAttributes: faceAttributes);
+                Face[] faces = await _faceServiceClient.DetectAsync(pictureUrl, returnFaceId: true, returnFaceLandmarks: false, returnFaceAttributes: faceAttributes);
                 Log("Faces length: " + faces.Length);
                 return faces;
             }
@@ -88,36 +86,6 @@ namespace NamicsFaces.Services.Implementation
                 return new Face[0];
             }
         }
-
-        private async Task<Face[]> UploadAndDetectFaces(string imageFilePath)
-        {
-            // The list of Face attributes to return.
-            IEnumerable<FaceAttributeType> faceAttributes =
-                new FaceAttributeType[] { FaceAttributeType.Gender, FaceAttributeType.Age, FaceAttributeType.Smile, FaceAttributeType.Emotion, FaceAttributeType.Glasses, FaceAttributeType.Hair };
-
-            // Call the Face API.
-            try
-            {
-                using (Stream imageFileStream = File.OpenRead(imageFilePath))
-                {
-                    Face[] faces = await faceServiceClient.DetectAsync(imageFileStream, returnFaceId: true, returnFaceLandmarks: false, returnFaceAttributes: faceAttributes);
-                    return faces;
-                }
-            }
-            // Catch and display Face API errors.
-            catch (FaceAPIException f)
-            {
-                //MessageBox.Show(f.ErrorMessage, f.ErrorCode);
-                return new Face[0];
-            }
-            // Catch and display all other errors.
-            catch (Exception e)
-            {
-                //MessageBox.Show(e.Message, "Error");
-                return new Face[0];
-            }
-        }
-
         private void Log(string log)
         {
             System.Diagnostics.Debug.WriteLine(log);
@@ -129,15 +97,13 @@ namespace NamicsFaces.Services.Implementation
 		    if (tDetect.Length > 0)
 		    {
 				Guid[] ids = tDetect.Select(item => item.FaceId).ToArray();
-				IdentifyResult[] tIdent = await faceServiceClient.IdentifyAsync(groupId, ids);			
+				IdentifyResult[] tIdent = await _faceServiceClient.IdentifyAsync(groupId, ids);			
 				return tIdent;
 		    }
 		    else
 		    {
-			    throw new ApplicationException("Person not found");
+			   return new IdentifyResult[0];
 		    }
-
-			throw new ApplicationException("No Faces");
 	    }
 
 	}

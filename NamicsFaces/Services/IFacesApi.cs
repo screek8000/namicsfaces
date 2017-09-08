@@ -1,4 +1,6 @@
-﻿using NamicsFaces.Models;
+﻿using System.Threading.Tasks;
+using Microsoft.ProjectOxford.Face.Contract;
+using NamicsFaces.Models;
 
 namespace NamicsFaces.Services
 {
@@ -6,7 +8,7 @@ namespace NamicsFaces.Services
     {
         FaceMetaData GetMetaData(string pictureUrl);
 
-        PersonMetaData Identify(string pictureUrl);
-	   
-    }
+        Task<PersonMetaData> Identify(string pictureUrl);
+		
+	}
 }

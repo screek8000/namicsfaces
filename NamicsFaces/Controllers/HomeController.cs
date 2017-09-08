@@ -1,9 +1,6 @@
 ﻿using NamicsFaces.Models;
 using NamicsFaces.Services;
 using NamicsFaces.Services.Implementation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -34,14 +31,16 @@ namespace NamicsFaces.Controllers
             return View("Identify", new PersonMetaData());
         }
 
-        [HttpPost]
-        public ActionResult Identify(string pictureUrl)
-        {
-            IFacesApi facesApi = new FacesApi();
-            //return View("Identify", facesApi.Identify(pictureUrl));
-	        return View("Identify", facesApi.Identify(pictureUrl));
-        }
+       
+	    [HttpPost]
+		public async Task<ActionResult> Identify(string pictureUrl)
+	    {
+		    IFacesApi facesApi=new FacesApi();
+		    PersonMetaData result = await facesApi.Identify(pictureUrl);
 
+		    return View("Identify", result);
+	    }
+	   
         public async Task<ActionResult> Train()
         {
             IFacesTrainApi facesTrainApi = new FacesTrainApi();
