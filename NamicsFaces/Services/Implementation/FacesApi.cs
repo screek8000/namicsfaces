@@ -4,8 +4,10 @@ using NamicsFaces.Models;
 using Microsoft.ProjectOxford.Face;
 using Microsoft.ProjectOxford.Face.Contract;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using NamicsFaces.Helpers;
+using WebGrease.Css.Extensions;
 
 namespace NamicsFaces.Services.Implementation
 {
@@ -40,10 +42,23 @@ namespace NamicsFaces.Services.Implementation
             }
         }
 
+	   
         public PersonMetaData Identify(string pictureUrl)
         {
-            // TODO
-            return new PersonMetaData();
+			// TODO
+			IdentifyResult[] result = AsyncHelpers.RunSync<IdentifyResult[]>(() => IdentifyPersons(pictureUrl));
+	        if (result.Length > 0)
+	        {
+		        if (result[0].Candidates.Length > 0)
+		        {
+					var candidateId = result[0].Candidates[0].PersonId;
+			        Task<Person> person = faceServiceClient.GetPersonAsync("lab-team", candidateId);
+			        //return new FaceMetaData { ImageUrl = person.ToString() };
+			        return new PersonMetaData { Name = person.Result.Name };
+				}
+				
+			}
+	        return new PersonMetaData{Name = "Not found"};
         }
 
         private async Task<Face[]> DetectFacesFromUrl(string pictureUrl)
@@ -107,5 +122,23 @@ namespace NamicsFaces.Services.Implementation
         {
             System.Diagnostics.Debug.WriteLine(log);
         }
-    }
+	    public async Task<IdentifyResult[]> IdentifyPersons(string pictureUrl)
+	    {
+		    string groupId = "lab-team";
+		    Face[] tDetect = await DetectFacesFromUrl(pictureUrl);
+		    if (tDetect.Length > 0)
+		    {
+				Guid[] ids = tDetect.Select(item => item.FaceId).ToArray();
+				IdentifyResult[] tIdent = await faceServiceClient.IdentifyAsync(groupId, ids);			
+				return tIdent;
+		    }
+		    else
+		    {
+			    throw new ApplicationException("Person not found");
+		    }
+
+			throw new ApplicationException("No Faces");
+	    }
+
+	}
 }

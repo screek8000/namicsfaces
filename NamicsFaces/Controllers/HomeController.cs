@@ -37,7 +37,8 @@ namespace NamicsFaces.Controllers
         public ActionResult Identify(string pictureUrl)
         {
             IFacesApi facesApi = new FacesApi();
-            return View("Identify", facesApi.Identify(pictureUrl));
+            //return View("Identify", facesApi.Identify(pictureUrl));
+	        return View("Identify", facesApi.Identify(pictureUrl));
         }
 
         public ActionResult About()
