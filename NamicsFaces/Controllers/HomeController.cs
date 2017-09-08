@@ -41,6 +41,24 @@ namespace NamicsFaces.Controllers
 	        return View("Identify", facesApi.Identify(pictureUrl));
         }
 
+        public ActionResult Train()
+        {
+            IFacesTrainApi facesTrainApi = new FacesTrainApi();
+            return View("Train", facesTrainApi.GetPersons());
+        }
+
+        [HttpPost]
+        public ActionResult Train(bool train)
+        {
+            if (train)
+            {
+                IFacesTrainApi facesTrainApi = new FacesTrainApi();
+                facesTrainApi.TrainFaces();
+                return View("Train", "OK");
+            }
+            return View("Train", "SKIP");
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
