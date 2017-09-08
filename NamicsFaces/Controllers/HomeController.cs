@@ -46,28 +46,27 @@ namespace NamicsFaces.Controllers
             IFacesTrainApi facesTrainApi = new FacesTrainApi();
             var trainModel = new TrainModel()
             {
-                Mode = "Get",
                 Persons = await facesTrainApi.GetPersonsMetaDataAsync()
             };
             return View("Train", trainModel);
         }
         
         [HttpPost]
-        public ActionResult Train(HttpPostedFileBase file, string personId)
+        public async Task<ActionResult> Train(HttpPostedFileBase file, string personId, string personName)
         {
-            var trainModel = new TrainModel()
-            {
-                Mode = "File"                
-            };
+            IFacesTrainApi facesTrainApi = new FacesTrainApi();
+            
+            var trainModel = new TrainModel();
             if (file != null)
             {
-                trainModel.Result = "OK";
-                return View("Train", trainModel);
+                await facesTrainApi.AddFaceAsync(file, personId, personName);
+                trainModel.Result = "File uploaded";
             } else
             {
-                trainModel.Result = "NOK";
-                return View("Train", trainModel);
+                trainModel.Result = "No file uploaded";
             }
+            trainModel.Persons = await facesTrainApi.GetPersonsMetaDataAsync();
+            return View("Train", trainModel);
         }
 
         [HttpPost]
@@ -75,21 +74,14 @@ namespace NamicsFaces.Controllers
         {
             IFacesTrainApi facesTrainApi = new FacesTrainApi();
             facesTrainApi.TrainFaces();
-            return View("Trainstatus");
+            return RedirectToRoute("/Home/Trainstatus");
         }
 
-        public ActionResult About()
+        public async Task<ActionResult> Trainstatus()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            IFacesTrainApi facesTrainApi = new FacesTrainApi();
+            TrainStatus status = await facesTrainApi.TrainStatusAsync();
+            return View("Trainstatus", status);
         }
     }
 }

@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using NamicsFaces.Models;
 using Microsoft.ProjectOxford.Face;
 using Microsoft.ProjectOxford.Face.Contract;
-using System.IO;
 using System.Threading.Tasks;
-using NamicsFaces.Helpers;
 using System.Linq;
+using System.Web;
 
 namespace NamicsFaces.Services.Implementation
 {
@@ -16,44 +15,41 @@ namespace NamicsFaces.Services.Implementation
 
         private static string personGroupId = "lab-team";
 
-
-        private async Task<Face[]> UploadAndDetectFaces(string imageFilePath)
+        public async Task AddFaceAsync(HttpPostedFileBase file, string personId, string personName)
         {
-            // The list of Face attributes to return.
-            IEnumerable<FaceAttributeType> faceAttributes =
-                new FaceAttributeType[] { FaceAttributeType.Gender, FaceAttributeType.Age, FaceAttributeType.Smile, FaceAttributeType.Emotion, FaceAttributeType.Glasses, FaceAttributeType.Hair };
-
-            // Call the Face API.
-            try
+            if (personId == null || personId == "")
             {
-                using (Stream imageFileStream = File.OpenRead(imageFilePath))
+                Guid newPersonId = await AddPersonAsync(personName);
+                if (newPersonId != Guid.Empty)
                 {
-                    Face[] faces = await faceServiceClient.DetectAsync(imageFileStream, returnFaceId: true, returnFaceLandmarks: false, returnFaceAttributes: faceAttributes);
-                    return faces;
+                    UploadFace(file, newPersonId);
                 }
-            }
-            // Catch and display Face API errors.
-            catch (FaceAPIException f)
+            } else
             {
-                //MessageBox.Show(f.ErrorMessage, f.ErrorCode);
-                return new Face[0];
-            }
-            // Catch and display all other errors.
-            catch (Exception e)
-            {
-                //MessageBox.Show(e.Message, "Error");
-                return new Face[0];
-            }
-        }
-
-        public void AddFace()
-        {
-            throw new NotImplementedException();
+                UploadFace(file, Guid.Parse(personId));
+            }   
         }
 
         public void TrainFaces()
         {
-            throw new NotImplementedException();
+            StartTrain();
+        }
+
+        public async Task<TrainStatus> TrainStatusAsync()
+        {
+            TrainingStatus status = await GetTrainStatusAsync();
+            if (status != null)
+            {
+                return new TrainStatus
+                {
+                    Status = status.Status,
+                    Message = status.Message,
+                    LastActionDateTime = status.LastActionDateTime
+                };
+            } else
+            {
+                return new TrainStatus();
+            }
         }
 
         public async Task<IEnumerable<PersonMetaData>> GetPersonsMetaDataAsync()
@@ -65,6 +61,88 @@ namespace NamicsFaces.Services.Implementation
                 PersonId = person.PersonId.ToString(),
                 UserData = person.UserData
             });
+        }
+
+        private async Task<TrainingStatus> GetTrainStatusAsync()
+        {
+            try
+            {
+                TrainingStatus status = await faceServiceClient.GetPersonGroupTrainingStatusAsync(personGroupId);
+                return status;
+            }
+            // Catch and display Face API errors.
+            catch (FaceAPIException f)
+            {
+                Log(f.ErrorMessage);
+                return null;
+            }
+            // Catch and display all other errors.
+            catch (Exception e)
+            {
+                Log(e.Message);
+                return null;
+            }
+        }
+
+        private async Task<Guid> AddPersonAsync(string personName)
+        {
+            try
+            {
+                Log("Add Person " + personName);
+                CreatePersonResult personResult = await faceServiceClient.CreatePersonAsync(personGroupId, personName);
+                Log("Person added with id " + personResult.PersonId);
+                return personResult.PersonId;
+            }
+            // Catch and display Face API errors.
+            catch (FaceAPIException f)
+            {
+                Log(f.ErrorMessage);
+                return Guid.Empty;
+            }
+            // Catch and display all other errors.
+            catch (Exception e)
+            {
+                Log(e.Message);
+                return Guid.Empty;
+            }
+        }
+
+        private void StartTrain()
+        {
+            try
+            {
+                faceServiceClient.TrainPersonGroupAsync(personGroupId);
+            }
+            // Catch and display Face API errors.
+            catch (FaceAPIException f)
+            {
+                Log(f.ErrorMessage);
+            }
+            // Catch and display all other errors.
+            catch (Exception e)
+            {
+                Log(e.Message);
+            }
+        }
+
+        private void UploadFace(HttpPostedFileBase file, Guid personId)
+        {
+            try
+            {
+                Log("Add Face");
+                faceServiceClient.AddPersonFaceAsync(personGroupId, personId, file.InputStream);
+                Log("Added Face");
+            }
+            // Catch and display Face API errors.
+            catch (FaceAPIException f)
+            {
+                Log(f.ErrorMessage);
+            }
+            // Catch and display all other errors.
+            catch (Exception e)
+            {
+                Log(e.Message);
+            }
         }
 
         private async Task<Person[]> GetPersonsAsync()

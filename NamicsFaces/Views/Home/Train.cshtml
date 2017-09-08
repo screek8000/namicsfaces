@@ -4,28 +4,26 @@
 
 <div class="row">
     <div class="col-sm-7">
-        @if (@Model.Mode == "Get")
-        {
-            <h2>Add a Face</h2>
-            <form method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="personId">Person</label>
-                    <select id="personId" name="personId" size="3">
-                        @foreach (var person in @Model.Persons)
-                        {
-                            <option value="@person.PersonId">@person.Name</option>
-                        }
-                    </select>
-                    <label for="file">Upload Face Image:</label>
-                    <input type="file" name="file" id="file" style="width: 100%;" />
-                </div>
-                <button type="submit" value="Upload" class="btn btn-primary">Add Face</button>
-            </form>
-        }
-        else
-        {
-            <h2> OK? @Model.Result </h2>
-        }
+        <p>@Model.Result</p>
+        <h2>Add a Face</h2>
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="personId">Person auswählen</label>
+                <select id="personId" name="personId" size="3">
+                    <option value="">Select</option>
+                    @foreach (var person in @Model.Persons)
+                    {
+                        <option value="@person.PersonId">@person.Name</option>
+                    }
+                </select>
+                <label for="personName">Person hinzufügen</label>
+                <input type="text" class="form-control" name="personName" id="personname">
+                <label for="file">Upload Face Image:</label>
+                <input type="file" name="file" id="file" style="width: 100%;" />
+            </div>
+            <button type="submit" value="Upload" class="btn btn-primary">Add Face</button>
+        </form>
+
         <h2>Train</h2>
         <form method="post">
             <input type="hidden" name="train" value="true" />
