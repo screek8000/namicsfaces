@@ -107,6 +107,9 @@ namespace NamicsFaces.Controllers
 
         private string UploadImage(HttpPostedFileBase file)
         {
+            //IStorage storage = new Storage();
+            //storage.StoreBlob(file.InputStream);
+
             if (file != null)
             {
                 try
