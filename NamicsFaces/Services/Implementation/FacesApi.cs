@@ -30,7 +30,8 @@ namespace NamicsFaces.Services.Implementation
                     Gender = face.FaceAttributes.Gender,
                     Glasses = face.FaceAttributes.Glasses.ToString(),
                     Smile = face.FaceAttributes.Smile,
-                    Emotion = getEmotion(face.FaceAttributes.Emotion)
+                    Emotion = getEmotion(face.FaceAttributes.Emotion),
+                    FacialHair = face.FaceAttributes.FacialHair.ToString
                 };  
             }
             else
@@ -78,7 +79,7 @@ namespace NamicsFaces.Services.Implementation
         {
             // The list of Face attributes to return.
             IEnumerable<FaceAttributeType> faceAttributes =
-                new FaceAttributeType[] { FaceAttributeType.Gender, FaceAttributeType.Age, FaceAttributeType.Smile, FaceAttributeType.Emotion, FaceAttributeType.Glasses, FaceAttributeType.Hair };
+                new FaceAttributeType[] { FaceAttributeType.Gender, FaceAttributeType.Age, FaceAttributeType.Smile, FaceAttributeType.Emotion, FaceAttributeType.Glasses, FaceAttributeType.Hair, FaceAttributeType.FacialHair};
 
             // Call the Face API.
             try

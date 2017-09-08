@@ -1,4 +1,5 @@
-﻿using NamicsFaces.Helpers;
+﻿using System;
+using NamicsFaces.Helpers;
 
 namespace NamicsFaces.Models
 {
@@ -23,5 +24,6 @@ namespace NamicsFaces.Models
         public string Glasses { get; set; }
 
         public string Emotion { get; set; }
+        public Func<string> FacialHair { get; set; }
     }
 }
