@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NamicsFaces.Helpers;
 using WebGrease.Css.Extensions;
+using Microsoft.ProjectOxford.Common.Contract;
 
 namespace NamicsFaces.Services.Implementation
 {
@@ -28,7 +29,8 @@ namespace NamicsFaces.Services.Implementation
                     Age = face.FaceAttributes.Age,
                     Gender = face.FaceAttributes.Gender,
                     Glasses = face.FaceAttributes.Glasses.ToString(),
-                    Smile = face.FaceAttributes.Smile
+                    Smile = face.FaceAttributes.Smile,
+                    Emotion = getEmotion(face.FaceAttributes.Emotion)
                 };  
             }
             else
@@ -41,9 +43,22 @@ namespace NamicsFaces.Services.Implementation
                 };
             }
         }
-		
-        public async Task<PersonMetaData> Identify(string pictureUrl)
+
+        private string getEmotion(EmotionScores emotion)
         {
+            KeyValuePair<string, float> bestMatch = new KeyValuePair<string, float>("", 0);
+            foreach (KeyValuePair<string,float> item in emotion.ToRankedList())
+            {
+                if(item.Value > bestMatch.Value)
+                {
+                    bestMatch = item;
+                }
+            }
+            return bestMatch.Key + " (" + NumberHelpers.ToPercent(bestMatch.Value) + ")";
+
+        }
+        
+		public async Task<PersonMetaData> Identify(string pictureUrl)        {
 			// TODO
 			IdentifyResult[] result = await IdentifyPersons(pictureUrl);
 	        if (result.Length > 0)

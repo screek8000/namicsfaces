@@ -159,6 +159,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AsyncHelpers.cs" />
+    <Compile Include="Helpers\NumberHelpers.cs" />
     <Compile Include="Models\PersonMetaData.cs" />
     <Compile Include="Models\FaceMetaData.cs" />
     <Compile Include="Models\TrainModel.cs" />

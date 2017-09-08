@@ -1,4 +1,6 @@
-﻿namespace NamicsFaces.Models
+﻿using NamicsFaces.Helpers;
+
+namespace NamicsFaces.Models
 {
     public class FaceMetaData
     {
@@ -14,10 +16,12 @@
         {
             get
             {
-                return (int)(Smile * 100) + "%";
+                return NumberHelpers.ToPercent(Smile);
             }
         }
 
         public string Glasses { get; set; }
+
+        public string Emotion { get; set; }
     }
 }
